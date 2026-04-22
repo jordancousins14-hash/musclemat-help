@@ -361,92 +361,131 @@
 
   /* MAIN */
   .main {
-    max-width: 860px;
+    max-width: 960px;
     margin: 0 auto;
     padding: clamp(32px, 6vw, 56px) clamp(20px, 5vw, 40px);
   }
 
-  /* SECTION PILLS */
-  .section-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
-  .section-pill {
+  /* SEARCH RESULTS VIEW — full-width accordion list shown when searching */
+  .search-results-view { display: none; }
+  .search-results-view.active { display: block; }
+  .search-results-header {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--soft);
+    margin-bottom: 16px;
+    letter-spacing: 0.3px;
+  }
+  .search-results-header span { color: var(--rust); }
+
+  /* CATEGORY GRID VIEW */
+  .category-grid-view { display: block; }
+  .category-grid-view.hidden { display: none; }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 0;
+  }
+  @media (max-width: 700px) { .cat-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 440px) { .cat-grid { grid-template-columns: 1fr; } }
+
+  /* CATEGORY CARD */
+  .cat-card {
     background: var(--white);
     border: 1.5px solid var(--border);
-    border-radius: 100px;
-    padding: 7px 16px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--mid);
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex; align-items: center; gap: 7px;
-    font-family: 'DM Sans', sans-serif;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.2s, border-color 0.2s;
   }
-  .section-pill:hover { border-color: var(--rust); color: var(--rust); }
-  .section-pill.active { background: var(--rust); border-color: var(--rust); color: white; }
-  .pill-count {
-    font-size: 11px;
-    background: rgba(0,0,0,0.09);
-    border-radius: 100px;
-    padding: 1px 7px;
-    font-weight: 600;
-  }
-  .section-pill.active .pill-count { background: rgba(255,255,255,0.22); }
+  .cat-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); border-color: var(--border); }
 
-  /* FAQ SECTIONS */
-  .faq-section { margin-bottom: 44px; }
-  .faq-section.hidden { display: none; }
-  .section-header {
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 16px;
-    padding-bottom: 16px;
-    border-bottom: 1.5px solid var(--border);
+  .cat-card-header {
+    padding: 20px 20px 16px;
+    border-bottom: 1.5px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 13px;
   }
-  .section-icon {
-    width: 38px; height: 38px;
-    background: var(--sand);
-    border-radius: 10px;
+
+  .cat-icon-wrap {
+    width: 44px; height: 44px;
+    border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 18px; flex-shrink: 0;
+    flex-shrink: 0;
+    font-size: 20px;
   }
-  .section-title {
+  /* Per-category icon bg tints */
+  .cat-card[data-cat="shipping"] .cat-icon-wrap  { background: #FDF0E8; }
+  .cat-card[data-cat="payment"]  .cat-icon-wrap  { background: #EAF0FD; }
+  .cat-card[data-cat="products"] .cat-icon-wrap  { background: #F0EDF8; }
+  .cat-card[data-cat="mattress"] .cat-icon-wrap  { background: #EAF0E7; }
+  .cat-card[data-cat="relaxmat"] .cat-icon-wrap  { background: #FDF5E8; }
+  .cat-card[data-cat="support"]  .cat-icon-wrap  { background: #EDF6F4; }
+
+  .cat-card-title {
     font-family: 'Syne', sans-serif;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 15px;
     color: var(--dark);
-    letter-spacing: -0.3px;
+    letter-spacing: -0.2px;
+    line-height: 1.2;
+  }
+  .cat-card-count {
+    font-size: 12px;
+    color: var(--soft);
+    margin-top: 2px;
+    font-weight: 400;
   }
 
-  /* FAQ ITEMS */
+  /* SVG icon inside the wrap */
+  .cat-icon-wrap svg { width: 22px; height: 22px; }
+  .cat-card[data-cat="shipping"] .cat-icon-wrap svg { stroke: #C4602A; }
+  .cat-card[data-cat="payment"]  .cat-icon-wrap svg { stroke: #3B6FD4; }
+  .cat-card[data-cat="products"] .cat-icon-wrap svg { stroke: #7B5EA7; }
+  .cat-card[data-cat="mattress"] .cat-icon-wrap svg { stroke: #4E6B49; }
+  .cat-card[data-cat="relaxmat"] .cat-icon-wrap svg { stroke: #B07830; }
+  .cat-card[data-cat="support"]  .cat-icon-wrap svg { stroke: #2E8B74; }
+
+  /* FAQ ITEMS INSIDE CARD */
+  .cat-faqs { padding: 0; }
+
   .faq-item {
-    background: var(--white);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    margin-bottom: 8px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-light);
+    border-radius: 0;
+    margin-bottom: 0;
     overflow: hidden;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    animation: fadeSlideIn 0.25s ease both;
+    transition: background 0.15s;
   }
-  .faq-item:hover { border-color: rgba(196,96,42,0.3); }
-  .faq-item.open { border-color: rgba(196,96,42,0.5); box-shadow: 0 4px 20px rgba(196,96,42,0.07); }
-  .faq-item.search-hidden { display: none; }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-item:hover { background: rgba(0,0,0,0.015); }
+  .faq-item.open { background: var(--rust-tint); }
+  .faq-item.extra { display: none; }
+  .faq-item.extra.shown { display: block; }
 
   .faq-q {
     width: 100%;
     background: none;
     border: none;
     text-align: left;
-    padding: 18px 20px;
+    padding: 13px 18px;
     cursor: pointer;
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
     font-family: 'DM Sans', sans-serif;
-    font-size: 14.5px;
+    font-size: 13.5px;
     font-weight: 500;
     color: var(--dark);
-    transition: color 0.2s;
+    transition: color 0.15s;
+    line-height: 1.4;
   }
   .faq-item.open .faq-q { color: var(--rust); }
+
   .faq-chevron {
-    width: 22px; height: 22px;
+    width: 20px; height: 20px;
     border-radius: 50%;
     background: var(--sand);
     display: flex; align-items: center; justify-content: center;
@@ -459,18 +498,64 @@
   .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1); }
   .faq-item.open .faq-a { max-height: 1200px; }
   .faq-a-inner {
-    padding: 16px 20px 20px;
-    font-size: 14px;
-    line-height: 1.8;
+    padding: 12px 18px 16px;
+    font-size: 13px;
+    line-height: 1.75;
     color: var(--mid);
-    border-top: 1.5px solid var(--sand);
+    border-top: 1px solid var(--border-light);
   }
   .faq-a-inner a { color: var(--rust); text-decoration: none; border-bottom: 1px solid rgba(196,96,42,0.3); transition: border-color 0.2s; }
   .faq-a-inner a:hover { border-color: var(--rust); }
   .faq-a-inner strong { color: var(--dark); font-weight: 500; }
-  .faq-a-inner ul { margin: 10px 0 10px 20px; }
-  .faq-a-inner li { margin-bottom: 6px; }
-  .faq-a-inner p + p { margin-top: 10px; }
+  .faq-a-inner ul { margin: 8px 0 8px 18px; }
+  .faq-a-inner li { margin-bottom: 5px; }
+
+  /* MORE BUTTON */
+  .cat-more-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    border-top: 1.5px solid var(--border-light);
+    padding: 11px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--rust);
+    cursor: pointer;
+    text-align: left;
+    display: flex; align-items: center; gap: 6px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .cat-more-btn:hover { background: var(--rust-tint); }
+  .cat-more-btn svg { transition: transform 0.3s; flex-shrink: 0; }
+  .cat-more-btn.expanded svg { transform: rotate(180deg); }
+  .cat-more-btn .more-label { flex: 1; }
+
+  /* SEARCH RESULTS — reuse faq-item but in a plain list */
+  .search-results-view .faq-item {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .search-results-view .faq-item:last-child { border-bottom: 1.5px solid var(--border); }
+  .search-results-view .faq-item:hover { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .search-results-view .faq-item.open { background: var(--white); border-color: rgba(196,96,42,0.5); box-shadow: 0 4px 20px rgba(196,96,42,0.07); }
+  .search-results-view .faq-q { padding: 16px 20px; font-size: 14px; }
+  .search-results-view .faq-a-inner { padding: 14px 20px 18px; font-size: 14px; border-top: 1.5px solid var(--sand); }
+  .search-cat-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: var(--sand);
+    color: var(--mid);
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-bottom: 10px;
+  }
 
   /* NO RESULTS */
   .no-results { text-align: center; padding: 60px 20px; display: none; }
@@ -621,382 +706,409 @@
 
 <!-- MAIN FAQ -->
 <main class="main">
-  <nav class="section-nav" id="sectionNav">
-    <button class="section-pill active" data-section="all" onclick="filterSection('all',this)">All Topics <span class="pill-count">30</span></button>
-    <button class="section-pill" data-section="shipping" onclick="filterSection('shipping',this)">📦 Shipping <span class="pill-count">5</span></button>
-    <button class="section-pill" data-section="payment" onclick="filterSection('payment',this)">💳 Payment <span class="pill-count">4</span></button>
-    <button class="section-pill" data-section="products" onclick="filterSection('products',this)">🛏 Products <span class="pill-count">8</span></button>
-    <button class="section-pill" data-section="mattress" onclick="filterSection('mattress',this)">🌙 Mattress Topper <span class="pill-count">8</span></button>
-    <button class="section-pill" data-section="relaxmat" onclick="filterSection('relaxmat',this)">🧘 Relax Mat <span class="pill-count">4</span></button>
-    <button class="section-pill" data-section="support" onclick="filterSection('support',this)">💬 Support <span class="pill-count">2</span></button>
-  </nav>
 
-  <div class="no-results" id="noResults">
-    <div class="no-results-emoji">🤔</div>
-    <h3>Nothing found for that search</h3>
-    <p>Try different keywords, or <a href="mailto:info@musclemat.com.au">email our team</a> — we reply within 1–2 business days.</p>
-  </div>
-
-  <!-- ── SHIPPING ── -->
-  <div class="faq-section" data-section="shipping" id="sect-shipping">
-    <div class="section-header">
-      <div class="section-icon">📦</div>
-      <h2 class="section-title">Shipping & Delivery</h2>
-    </div>
-
-    <div class="faq-item" data-tags="shipping time delivery arrive days metro auspost">
-      <button class="faq-q" onclick="toggleFaq(this)">How long does delivery take?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Orders placed before 1pm are usually dispatched the same day. Delivery typically takes <strong>1–3 business days for metro areas</strong> and 3–10 business days for non-metro areas. During busy periods like Christmas, shipping may take a little longer.<br><br>
-        Want an estimate to your postcode? Use the <a href="https://auspost.com.au/parcels-mail/calculate-postage-delivery-times/#/" target="_blank">AusPost delivery calculator</a> — our dispatch postcode is 2164.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="preorder pre-order stock dispatch date">
-      <button class="faq-q" onclick="toggleFaq(this)">What is a pre-order?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        A pre-order means the item is temporarily out of stock, but you can still secure your order and it will be dispatched as soon as new stock arrives. The estimated dispatch date is shown on the product page, at checkout, and in your confirmation email.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="not shipped order hasn't dispatched delay waiting">
-      <button class="faq-q" onclick="toggleFaq(this)">Why hasn't my order shipped yet?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        A few common reasons your order may not have shipped yet:
-        <ul>
-          <li><strong>It's a pre-order</strong> — check the product page to confirm.</li>
-          <li><strong>Peak/holiday period</strong> — processing times can be extended during sales and holidays.</li>
-          <li><strong>Order issue</strong> — incomplete address, payment error, or similar. If it's been more than 3 business days and none of the above apply, email us at <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a>.</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="missing item multiple parcels separate parcel tracking">
-      <button class="faq-q" onclick="toggleFaq(this)">I ordered multiple items but one is missing — is that normal?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Yes, this is normal! Because our products are bulky, multi-item orders are sent in separate parcels. AusPost usually delivers them together, but sometimes they arrive a day or two apart.<br><br>
-        To track your other parcel, click the tracking link in your dispatch email and look for the "Item 1 of 2" dropdown — select "Item 2 of 2" to see the second parcel's status.<br><br>
-        If the second parcel hasn't arrived within 5 business days of the first, please email us at <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a>.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="where based location warehouse sydney brisbane">
-      <button class="faq-q" onclick="toggleFaq(this)">Where are you based?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Our head office is in Brisbane and our warehouse is in Sydney. By warehousing in Sydney — Australia's most central population hub — we can get orders to most customers faster.
-      </div></div>
+  <!-- SEARCH RESULTS VIEW -->
+  <div class="search-results-view" id="searchResultsView">
+    <div class="search-results-header" id="searchResultsHeader">Results for "<span id="searchTermDisplay"></span>"</div>
+    <div id="searchResultsList"></div>
+    <div class="no-results" id="noResults">
+      <div class="no-results-emoji">🤔</div>
+      <h3>Nothing found for that search</h3>
+      <p>Try different keywords, or <a href="mailto:info@musclemat.com.au">email our team</a> — we reply within 1–2 business days.</p>
     </div>
   </div>
 
-  <!-- ── PAYMENT ── -->
-  <div class="faq-section" data-section="payment" id="sect-payment">
-    <div class="section-header">
-      <div class="section-icon">💳</div>
-      <h2 class="section-title">Payment</h2>
-    </div>
+  <!-- CATEGORY GRID VIEW -->
+  <div class="category-grid-view" id="categoryGridView">
+    <div class="cat-grid">
 
-    <div class="faq-item" data-tags="payment options visa mastercard afterpay zippay paypal apple google">
-      <button class="faq-q" onclick="toggleFaq(this)">What payment methods do you accept?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        We accept PayPal, Afterpay, Zippay, Visa, Mastercard, Amex, Google Pay, Apple Pay, and Shop Pay.
-      </div></div>
-    </div>
+      <!-- SHIPPING -->
+      <div class="cat-card" data-cat="shipping">
+        <div class="cat-card-header">
+          <div class="cat-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="15" height="13" rx="1"/>
+              <path d="M16 8h4l3 5v4h-7V8z"/>
+              <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cat-card-title">Shipping & Delivery</div>
+            <div class="cat-card-count">5 articles</div>
+          </div>
+        </div>
+        <div class="cat-faqs">
+          <div class="faq-item" data-tags="shipping time delivery arrive days metro auspost">
+            <button class="faq-q" onclick="toggleFaq(this)">How long does delivery take?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Orders placed before 1pm are usually dispatched the same day. Delivery takes <strong>1–3 business days for metro areas</strong> and 3–10 business days for non-metro. Busy periods like Christmas may add extra time.<br><br>
+              Check estimated times with the <a href="https://auspost.com.au/parcels-mail/calculate-postage-delivery-times/#/" target="_blank">AusPost calculator</a> — our dispatch postcode is 2164.
+            </div></div>
+          </div>
+          <div class="faq-item" data-tags="not shipped order dispatch delay waiting">
+            <button class="faq-q" onclick="toggleFaq(this)">Why hasn't my order shipped yet?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Common reasons: it may be a pre-order (check the product page), a peak or holiday period, or an issue with your order details. If it's been more than 3 business days with no update, email <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a>.
+            </div></div>
+          </div>
+          <div class="faq-item" data-tags="missing item multiple parcels separate parcel tracking">
+            <button class="faq-q" onclick="toggleFaq(this)">I ordered multiple items but one is missing
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Totally normal — bulky items are sent in separate parcels and sometimes arrive a day or two apart. In your dispatch email, click the tracking link and use the "Item 1 of 2" dropdown to check each parcel. If the second hasn't arrived within 5 business days of the first, let us know.
+            </div></div>
+          </div>
+          <div class="faq-item extra" data-tags="preorder pre-order stock dispatch date">
+            <button class="faq-q" onclick="toggleFaq(this)">What is a pre-order?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              A pre-order means the item is temporarily out of stock — you can still place your order and it'll be dispatched as soon as new stock arrives. The estimated date is shown on the product page, at checkout, and in your confirmation email.
+            </div></div>
+          </div>
+          <div class="faq-item extra" data-tags="where based location warehouse sydney brisbane">
+            <button class="faq-q" onclick="toggleFaq(this)">Where are you based?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Our head office is in Brisbane and our warehouse is in Sydney. Warehousing in Sydney means faster delivery times for most Australians.
+            </div></div>
+          </div>
+        </div>
+        <button class="cat-more-btn" onclick="toggleMore(this)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          <span class="more-label">2 more articles</span>
+        </button>
+      </div>
 
-    <div class="faq-item" data-tags="afterpay how to use buy now pay later">
-      <button class="faq-q" onclick="toggleFaq(this)">How do I use Afterpay?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        After entering your shipping details at checkout, you'll be shown all payment options including Afterpay. Select Afterpay and you'll be redirected to their site to complete the purchase and set up your repayment schedule.
-      </div></div>
-    </div>
+      <!-- PAYMENT -->
+      <div class="cat-card" data-cat="payment">
+        <div class="cat-card-header">
+          <div class="cat-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2"/>
+              <line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cat-card-title">Payment</div>
+            <div class="cat-card-count">4 articles</div>
+          </div>
+        </div>
+        <div class="cat-faqs">
+          <div class="faq-item" data-tags="payment options visa mastercard afterpay zippay paypal apple google">
+            <button class="faq-q" onclick="toggleFaq(this)">What payment methods do you accept?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              We accept PayPal, Afterpay, Zippay, Visa, Mastercard, Amex, Google Pay, Apple Pay, and Shop Pay.
+            </div></div>
+          </div>
+          <div class="faq-item" data-tags="afterpay how to use buy now pay later">
+            <button class="faq-q" onclick="toggleFaq(this)">How do I use Afterpay?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              At checkout, after entering your shipping details you'll see all payment options. Select Afterpay and you'll be redirected to their site to complete the purchase.
+            </div></div>
+          </div>
+          <div class="faq-item" data-tags="ndis invoice disability plan manager">
+            <button class="faq-q" onclick="toggleFaq(this)">Can you provide an NDIS invoice?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Yes! We're not a registered NDIS provider but we can issue an invoice for you or your plan manager. Email <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a> with your product details, shipping/billing info, and participant name and NDIS number. Check your spam folder for our reply.
+            </div></div>
+          </div>
+          <div class="faq-item extra" data-tags="discount code multiple promo coupon sale stack">
+            <button class="faq-q" onclick="toggleFaq(this)">Can I use more than one discount code?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Only one discount can be applied per order — this includes codes, gift cards, and sale prices. Use whichever gives you the biggest saving.
+            </div></div>
+          </div>
+        </div>
+        <button class="cat-more-btn" onclick="toggleMore(this)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          <span class="more-label">1 more article</span>
+        </button>
+      </div>
 
-    <div class="faq-item" data-tags="ndis invoice disability plan manager">
-      <button class="faq-q" onclick="toggleFaq(this)">Can you provide an NDIS invoice?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Absolutely! We're not a registered NDIS provider, but we can issue an invoice that you can pay yourself or forward to your plan manager. Our Relax Mats and Mattress Toppers are especially popular for NDIS purchases.<br><br>
-        Email us at <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a> with the following:
-        <ul>
-          <li>Product details (size, colour, quantity)</li>
-          <li>Shipping/billing name, address, and mobile number</li>
-          <li>Participant name and NDIS number</li>
-        </ul>
-        We'll email you a payment link and PDF invoice. Check your spam folder if you don't see a reply.
-      </div></div>
-    </div>
+      <!-- PRODUCTS -->
+      <div class="cat-card" data-cat="products">
+        <div class="cat-card-header">
+          <div class="cat-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cat-card-title">Product Questions</div>
+            <div class="cat-card-count">8 articles</div>
+          </div>
+        </div>
+        <div class="cat-faqs">
+          <div class="faq-item" data-tags="clean wash care instructions how to">
+            <button class="faq-q" onclick="toggleFaq(this)">How do I clean my product?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              <strong>Acupressure Mat</strong> — Hand wash cover only, mild detergent, hang to air dry. No heat.<br>
+              <strong>CloudPad</strong> — Machine wash cover on gentle warm, air dry flat. Inner foam is not washable.<br>
+              <strong>Mattress Topper</strong> — Spot clean minor stains. For a deeper clean, use a large laundromat machine on a cold/warm gentle cycle. Air dry in sun.<br>
+              <strong>Relax Mat</strong> — Wipe with damp cloth; gentle detergent for stubborn stains. Vacuum regularly.<br>
+              <strong>Duvet / Sheets / Weighted Blanket</strong> — Cold gentle machine wash, air dry. Follow care labels for specifics.
+            </div></div>
+          </div>
+          <div class="faq-item" data-tags="warranty guarantee how long">
+            <button class="faq-q" onclick="toggleFaq(this)">What's the warranty on your products?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              All Muscle Mat products come with a <strong>1-year warranty</strong>. Email <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a> if you have any issues.
+            </div></div>
+          </div>
+          <div class="faq-item" data-tags="children kids age safe acupressure weighted blanket">
+            <button class="faq-q" onclick="toggleFaq(this)">Can children use these products?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              <strong>Acupressure Mat:</strong> Suitable for children 10+ with supervision. Not for under 10s.<br>
+              <strong>Weighted Blanket:</strong> Not for under 10s. <strong>Never use for children under 5.</strong><br>
+              <strong>Relax Mat:</strong> Suitable for all ages.
+            </div></div>
+          </div>
+          <div class="faq-item extra" data-tags="medical condition health safe use doctor">
+            <button class="faq-q" onclick="toggleFaq(this)">Can I use these with a medical condition?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Our products are generally low-risk, but we can't provide medical advice. Always check with your doctor before use if you have any medical conditions.
+            </div></div>
+          </div>
+          <div class="faq-item extra" data-tags="pregnant pregnancy acupressure safe">
+            <button class="faq-q" onclick="toggleFaq(this)">Can I use the Acupressure Mat while pregnant?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              We generally advise <strong>against</strong> it — some evidence suggests it may stimulate labour. Please consult your doctor first.
+            </div></div>
+          </div>
+          <div class="faq-item extra" data-tags="acupressure how does it work benefits">
+            <button class="faq-q" onclick="toggleFaq(this)">How do acupressure mats work?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Based on a 2,000-year-old Eastern practice, the mat's surface mimics multiple acupressure points simultaneously, promoting relaxation and muscle relief. <a href="https://www.thegoodbody.com/acupressure-mat-benefits/" target="_blank">Read more here →</a>
+            </div></div>
+          </div>
+          <div class="faq-item extra" data-tags="how to use acupressure mat instructions">
+            <button class="faq-q" onclick="toggleFaq(this)">How do I use the Acupressure Mat?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              See our full instructions page: <a href="https://www.musclemat.com.au/pages/instructions" target="_blank">musclemat.com.au/pages/instructions →</a>
+            </div></div>
+          </div>
+          <div class="faq-item extra" data-tags="what is it made of material fabric">
+            <button class="faq-q" onclick="toggleFaq(this)">What are your products made of?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Materials vary by product — full details are on each product page. For specific allergy concerns, email <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a>.
+            </div></div>
+          </div>
+        </div>
+        <button class="cat-more-btn" onclick="toggleMore(this)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          <span class="more-label">5 more articles</span>
+        </button>
+      </div>
 
-    <div class="faq-item" data-tags="discount code multiple promo coupon sale stack">
-      <button class="faq-q" onclick="toggleFaq(this)">Can I use more than one discount code?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Our system only allows one discount to be applied per order. This includes offers, sales, promotions, discount codes, vouchers, and gift cards. If you have multiple discounts, we recommend applying whichever gives you the biggest saving.
-      </div></div>
-    </div>
-  </div>
+      <!-- MATTRESS TOPPER -->
+      <div class="cat-card" data-cat="mattress">
+        <div class="cat-card-header">
+          <div class="cat-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 9V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3"/>
+              <rect x="2" y="9" width="20" height="7" rx="1"/>
+              <path d="M2 16v2"/><path d="M22 16v2"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cat-card-title">Mattress Topper</div>
+            <div class="cat-card-count">8 articles</div>
+          </div>
+        </div>
+        <div class="cat-faqs">
+          <div class="faq-item" data-tags="size what size queen double king single">
+            <button class="faq-q" onclick="toggleFaq(this)">What size topper should I get?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Match the topper to your mattress size — a Queen bed gets a Queen topper. If between sizes, go larger. <a href="https://www.musclemat.com.au/products/luxury-mattress-topper" target="_blank">Full dimensions →</a>
+            </div></div>
+          </div>
+          <div class="faq-item" data-tags="sheets fit deep size topper">
+            <button class="faq-q" onclick="toggleFaq(this)">Will my sheets fit over the topper?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              If your mattress is already deep, you may need deeper fitted sheets. We sell Australia's deepest sheets at 50cm — <a href="https://www.musclemat.com.au/products/sheets" target="_blank">shop here</a>. Avoid very tight sheets as they'll compress the topper.
+            </div></div>
+          </div>
+          <div class="faq-item" data-tags="hot cold temperature sleep heat regulate">
+            <button class="faq-q" onclick="toggleFaq(this)">Is the topper too hot or cold?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Our toppers are temperature-neutral and work well year-round. Tip: flannelette sheets in winter, bamboo or linen in summer.
+            </div></div>
+          </div>
+          <div class="faq-item extra" data-tags="caravan campervan bed size fit custom">
+            <button class="faq-q" onclick="toggleFaq(this)">Do your toppers fit caravan beds?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Very popular for caravans! Our topper has square corners but it's flexible once sheets are on. Measure your mattress and match to our closest size — when between sizes, go larger.
+            </div></div>
+          </div>
+          <div class="faq-item extra" data-tags="allergy allergen latex hypoallergenic safe">
+            <button class="faq-q" onclick="toggleFaq(this)">Is the topper allergy-friendly?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              We can't guarantee it's allergen-free. It doesn't contain latex directly, but is made in a facility that handles latex. If you have allergies, please check with us before purchasing.
+            </div></div>
+          </div>
+          <div class="faq-item extra" data-tags="is it worth it good benefits why get topper">
+            <button class="faq-q" onclick="toggleFaq(this)">Is it worth getting a mattress topper?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              A topper is one of the most cost-effective sleep upgrades — adds comfort, protects your mattress, and can breathe new life into an older one. Over 50% of Australians now use one.
+            </div></div>
+          </div>
+          <div class="faq-item extra" data-tags="electric blanket use on top under topper safe">
+            <button class="faq-q" onclick="toggleFaq(this)">Can I use an electric blanket with the topper?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Yes — place the electric blanket <strong>on top</strong> of the topper, never underneath. Never leave an electric blanket unsupervised.
+            </div></div>
+          </div>
+          <div class="faq-item extra" data-tags="what does topper do revitalise old mattress">
+            <button class="faq-q" onclick="toggleFaq(this)">What does a mattress topper actually do?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              It improves comfort, adds plushness, smooths out surface bumps, and extends the life of your mattress.
+            </div></div>
+          </div>
+        </div>
+        <button class="cat-more-btn" onclick="toggleMore(this)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          <span class="more-label">5 more articles</span>
+        </button>
+      </div>
 
-  <!-- ── PRODUCTS ── -->
-  <div class="faq-section" data-section="products" id="sect-products">
-    <div class="section-header">
-      <div class="section-icon">🛏</div>
-      <h2 class="section-title">Product Questions</h2>
-    </div>
+      <!-- RELAX MAT -->
+      <div class="cat-card" data-cat="relaxmat">
+        <div class="cat-card-header">
+          <div class="cat-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="14" width="20" height="5" rx="1"/>
+              <path d="M6 14V9a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5"/>
+              <path d="M12 7V5"/><circle cx="12" cy="4" r="1"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cat-card-title">Relax Mat (Tatami)</div>
+            <div class="cat-card-count">4 articles</div>
+          </div>
+        </div>
+        <div class="cat-faqs">
+          <div class="faq-item" data-tags="what is relax mat tatami memory foam">
+            <button class="faq-q" onclick="toggleFaq(this)">What is the Relax Mat?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              A 35mm thick tatami-style memory foam mat with a stain and water resistant outer coating. Great for lounging, napping, and kids play areas. Suitable for all ages.
+            </div></div>
+          </div>
+          <div class="faq-item" data-tags="expand flat crease fold iron open unroll">
+            <button class="faq-q" onclick="toggleFaq(this)">My Relax Mat has creases — how do I flatten it?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Lay it flat for 3–10 days — most creases ease out on their own. For stubborn folds, use an iron or steamer on minimum heat and maximum steam, keeping it moving. <a href="https://www.musclemat.com.au/blogs/blog/how-to-care-for-your-relax-mat" target="_blank">Full care guide →</a>
+            </div></div>
+          </div>
+          <div class="faq-item" data-tags="thick thickness how thick mm size relax mat">
+            <button class="faq-q" onclick="toggleFaq(this)">How thick is the Relax Mat?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              <strong>35mm</strong> — the thickest tatami-style mat available in Australia.
+            </div></div>
+          </div>
+          <div class="faq-item extra" data-tags="polished floors marks damage non slip bottom">
+            <button class="faq-q" onclick="toggleFaq(this)">Can I use the Relax Mat on polished floors?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              In rare cases the non-slip base can react with old or breaking-down floor polish, leaving small marks. Test on an inconspicuous spot for a few days before placing it in a main area.
+            </div></div>
+          </div>
+        </div>
+        <button class="cat-more-btn" onclick="toggleMore(this)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          <span class="more-label">1 more article</span>
+        </button>
+      </div>
 
-    <div class="faq-item" data-tags="clean wash care instructions how to">
-      <button class="faq-q" onclick="toggleFaq(this)">How do I clean and care for my product?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        <strong>Acupressure Mat</strong> — Remove the inner foam. Hand wash the outer cover only with mild detergent. Hang to air dry. No iron, bleach, or tumble dry.<br><br>
-        <strong>CloudPad</strong> — The cover is machine washable. Unzip, turn inside out, gentle warm cycle with mild detergent, air dry flat. The inner foam is not washable.<br><br>
-        <strong>Duvet</strong> — Cold gentle machine wash, separately. Line dry in shade. No bleach, tumble dry, or iron.<br><br>
-        <strong>Bed Sheets</strong> — Cold gentle machine wash, max 30°C, mild liquid detergent. Air dry is best. For stains, soak in 1-part vinegar to 4-parts water for one hour then wash.<br><br>
-        <strong>Mattress Topper</strong> — Spot clean with liquid detergent and a damp cloth for minor stains. For deeper clean, cold/warm hand wash or large-capacity laundromat machine on a short gentle cycle. Air dry in the sun. No heat, no dry cleaning.<br><br>
-        <strong>Relax Mat</strong> — Wipe spills with a damp cloth. Use a small amount of gentle detergent for stubborn stains. Vacuum regularly. Don't place heavy furniture on it. <a href="https://www.musclemat.com.au/blogs/blog/how-to-care-for-your-relax-mat" target="_blank">Full care guide →</a><br><br>
-        <strong>Weighted Blanket (cover)</strong> — Remove inner, cold machine wash, gentle cycle, hang to air dry. No heat. For the inner: vacuum, then spot clean if needed with a diluted laundry spray. Ensure fully dry before use.
-      </div></div>
-    </div>
+      <!-- SUPPORT -->
+      <div class="cat-card" data-cat="support">
+        <div class="cat-card-header">
+          <div class="cat-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="cat-card-title">Customer Support</div>
+            <div class="cat-card-count">2 articles</div>
+          </div>
+        </div>
+        <div class="cat-faqs">
+          <div class="faq-item" data-tags="contact us email phone hours reach team">
+            <button class="faq-q" onclick="toggleFaq(this)">How do I get in touch with the team?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              Email is the fastest way: <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a><br><br>
+              We're open <strong>Mon–Fri, 9am–3pm AEST</strong> and aim to reply within 1–2 business days. You can also reach us on <a href="https://www.facebook.com/Muscle-Mat-105396194411046" target="_blank">Facebook Messenger</a>.
+            </div></div>
+          </div>
+          <div class="faq-item" data-tags="no reply customer service not responded spam email blocked">
+            <button class="faq-q" onclick="toggleFaq(this)">Why haven't I heard back from customer service?
+              <span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner">
+              We reply within 1–3 business days (Mon–Fri). If you haven't heard back: check your spam folder, confirm it's not a weekend, and try a personal email if you used a work address — especially addresses ending in <em>.tpg.com.au</em> which sometimes block our replies. You can also message us on <a href="https://www.facebook.com/Muscle-Mat-105396194411046" target="_blank">Facebook</a>.
+            </div></div>
+          </div>
+        </div>
+      </div>
 
-    <div class="faq-item" data-tags="warranty guarantee how long">
-      <button class="faq-q" onclick="toggleFaq(this)">What's the warranty on your products?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        All Muscle Mat products come with a <strong>1-year warranty</strong>. If you have an issue with your product, email us at <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a> and our team will help you out.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="children kids age safe acupressure weighted blanket">
-      <button class="faq-q" onclick="toggleFaq(this)">Can children use the Acupressure Mat or Weighted Blanket?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        <strong>Acupressure Mat:</strong> Older children (10+) often enjoy using the mat and adapt to it quickly. Always supervise, and consider starting with a shirt on for their first session. <strong>Not suitable for children under 10.</strong><br><br>
-        <strong>Weighted Blanket:</strong> Not recommended for children under 10, and <strong>must never be used by children under 5</strong> as it could pose a serious safety risk.<br><br>
-        <strong>Relax Mat:</strong> Suitable for all ages.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="medical condition health safe use doctor">
-      <button class="faq-q" onclick="toggleFaq(this)">Can I use a Muscle Mat product with my medical condition?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Your health and safety is our priority. While our products are generally considered safe and low-risk, we're unable to provide medical advice. We always recommend speaking with your doctor before use if you have any medical conditions.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="pregnant pregnancy acupressure safe">
-      <button class="faq-q" onclick="toggleFaq(this)">Can the Acupressure Mat be used during pregnancy?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        We generally advise <strong>against</strong> using the acupressure mat during pregnancy as a safety precaution — some evidence suggests it may stimulate labour. Please consult your doctor before using it if you are pregnant.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="acupressure how does it work benefits">
-      <button class="faq-q" onclick="toggleFaq(this)">How do acupressure mats work?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Acupressure mats are based on the ancient Eastern practice of acupressure, which dates back over 2,000 years. The mat's surface mimics the effect of multiple pressure points applied simultaneously, which many people find promotes relaxation and muscle relief. For a deeper look at the benefits, <a href="https://www.thegoodbody.com/acupressure-mat-benefits/" target="_blank">The Good Body has a great write-up</a>.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="how to use acupressure mat instructions">
-      <button class="faq-q" onclick="toggleFaq(this)">How do I use the Acupressure Mat?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        We have a full instructions page on our website — <a href="https://www.musclemat.com.au/pages/instructions" target="_blank">check it out here</a>.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="what is it made of material fabric">
-      <button class="faq-q" onclick="toggleFaq(this)">What are your products made of?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Materials vary by product. Each product page lists full material details. If you have a specific allergy concern or need more information, email us at <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a> and we'll be happy to help.
-      </div></div>
-    </div>
-  </div>
-
-  <!-- ── MATTRESS TOPPER ── -->
-  <div class="faq-section" data-section="mattress" id="sect-mattress">
-    <div class="section-header">
-      <div class="section-icon">🌙</div>
-      <h2 class="section-title">Mattress Topper</h2>
-    </div>
-
-    <div class="faq-item" data-tags="sheets fit deep size topper">
-      <button class="faq-q" onclick="toggleFaq(this)">Will my sheets fit over the mattress topper?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        If your mattress is already deep, or your sheets are tight-fitting, you may need deeper sheets after adding the topper. Avoid sheets that are very tight as they'll compress the topper and reduce its comfort.<br><br>
-        We sell Australia's deepest bed sheets at 50cm — <a href="https://www.musclemat.com.au/products/sheets" target="_blank">shop them here</a>.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="hot cold temperature sleep heat regulate">
-      <button class="faq-q" onclick="toggleFaq(this)">Is the mattress topper too hot or cold?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Our toppers are quite temperature-neutral — loved by customers in Far North Queensland and Tasmania alike. For cooler months, pair with flannelette sheets. For warmer months, go for cotton, linen, or bamboo.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="caravan campervan bed size fit custom">
-      <button class="faq-q" onclick="toggleFaq(this)">Do your toppers fit caravan beds?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Very popular for caravans! Our topper has square corners (unlike some rounded caravan mattresses), but it's flexible enough that this isn't an issue once you put sheets on.<br><br>
-        If your mattress isn't a standard size, measure it and match it as closely as possible to our available sizes. If you're between two sizes, go with the larger one. <a href="https://www.musclemat.com.au/products/luxury-mattress-topper" target="_blank">View dimensions →</a>
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="size what size queen double king single">
-      <button class="faq-q" onclick="toggleFaq(this)">What size topper should I get?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Get the same size as your mattress — a Queen bed gets a Queen topper. If your mattress falls between two sizes, measure the width and length and go with the closest match. When in doubt, size up.<br><br>
-        <a href="https://www.musclemat.com.au/products/luxury-mattress-topper" target="_blank">Full dimension guide on the product page →</a>
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="allergy allergen latex hypoallergenic safe">
-      <button class="faq-q" onclick="toggleFaq(this)">Is the mattress topper allergy-friendly?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        We can't guarantee the topper is free from all allergens. While it doesn't contain latex directly, it is manufactured in a facility that also handles latex products. If you have latex or material allergies, we recommend checking with us before purchasing.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="is it worth it good benefits why get topper">
-      <button class="faq-q" onclick="toggleFaq(this)">Is it worth getting a mattress topper?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        A mattress topper is one of the most cost-effective ways to upgrade your sleep. It adds comfort and plushness, evens out minor dips or firmness issues in your existing mattress, and extends its lifespan. More than 50% of Australians now use one.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="electric blanket use on top under topper safe">
-      <button class="faq-q" onclick="toggleFaq(this)">Can I use an electric blanket with the topper?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Yes — place the electric blanket <strong>on top</strong> of the topper, never underneath it. Placing it underneath could pose a fire risk and also reduces how effectively the heat transfers. Always follow the manufacturer's instructions and never leave an electric blanket unsupervised.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="what does topper do revitalise old mattress">
-      <button class="faq-q" onclick="toggleFaq(this)">What does a mattress topper actually do?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        A topper improves comfort, adds plushness, smooths out surface bumps, and protects and extends the life of your original mattress. It can also revitalise an older mattress that's lost its comfort.
-      </div></div>
-    </div>
-  </div>
-
-  <!-- ── RELAX MAT ── -->
-  <div class="faq-section" data-section="relaxmat" id="sect-relaxmat">
-    <div class="section-header">
-      <div class="section-icon">🧘</div>
-      <h2 class="section-title">Relax Mat (Tatami)</h2>
-    </div>
-
-    <div class="faq-item" data-tags="what is relax mat tatami memory foam">
-      <button class="faq-q" onclick="toggleFaq(this)">What is the Relax Mat?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        The Relax Mat is a 35mm thick tatami-style memory foam mat with a stain and water resistant outer coating and a high-density foam inner. It's great for lounging, kids play areas, napping, and general floor use. Suitable for all ages — adults and kids both love them.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="polished floors marks damage non slip bottom">
-      <button class="faq-q" onclick="toggleFaq(this)">Can I use the Relax Mat on polished floors?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        In very rare cases, the non-slip base can react with older floor polish that's already breaking down, leaving small black marks. We recommend testing the mat on an out-of-the-way spot for a few days before placing it in a main area.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="expand flat crease fold iron open unroll">
-      <button class="faq-q" onclick="toggleFaq(this)">My Relax Mat has creases — how do I flatten it?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        This is completely normal due to how it's packed. Lay it flat for 3–10 days and most creases will naturally ease out. For stubborn folds, use an iron or steamer on minimum heat and maximum steam — keep it moving and don't hold it in one spot.<br><br>
-        <a href="https://www.musclemat.com.au/blogs/blog/how-to-care-for-your-relax-mat" target="_blank">Full care guide →</a>
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="thick thickness how thick mm size relax mat">
-      <button class="faq-q" onclick="toggleFaq(this)">How thick is the Relax Mat?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        The Relax Mat is <strong>35mm thick</strong> — the thickest tatami-style mat available in Australia. We measure from the centre by cutting a cross-section through the foam.
-      </div></div>
-    </div>
-  </div>
-
-  <!-- ── SUPPORT ── -->
-  <div class="faq-section" data-section="support" id="sect-support">
-    <div class="section-header">
-      <div class="section-icon">💬</div>
-      <h2 class="section-title">Customer Support</h2>
-    </div>
-
-    <div class="faq-item" data-tags="contact us email phone hours reach team">
-      <button class="faq-q" onclick="toggleFaq(this)">How do I get in touch with the team?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        Email is the fastest way to reach us: <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a><br><br>
-        We're open <strong>Monday to Friday, 9am–3pm AEST</strong>. We aim to reply within 1–2 business days. You can also reach us on <a href="https://www.facebook.com/Muscle-Mat-105396194411046" target="_blank">Facebook Messenger</a>.
-      </div></div>
-    </div>
-
-    <div class="faq-item" data-tags="no reply customer service not responded spam email blocked">
-      <button class="faq-q" onclick="toggleFaq(this)">I haven't heard back from customer service — what's going on?
-        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-      <div class="faq-a"><div class="faq-a-inner">
-        We always aim to reply within 1–3 business days. If you haven't heard back, a few things to check:
-        <ul>
-          <li><strong>Is it the weekend?</strong> We're Monday–Friday only.</li>
-          <li><strong>Check your spam/junk folder</strong> — our replies sometimes end up there.</li>
-          <li><strong>Work email addresses</strong> (especially those ending in <em>.tpg.com.au</em>) can block external replies. Try a personal email address.</li>
-          <li>If none of the above apply after 3 business days, try emailing us from a different account or reaching out via <a href="https://www.facebook.com/Muscle-Mat-105396194411046" target="_blank">Facebook Messenger</a>.</li>
-        </ul>
-      </div></div>
-    </div>
-  </div>
+    </div><!-- /cat-grid -->
+  </div><!-- /category-grid-view -->
 
   <!-- CONTACT CARD -->
   <div class="contact-card">
@@ -1014,94 +1126,117 @@
 </main>
 
 <script>
-  // ── FAQ DATA (for AI search) ──
+  // ── BUILD FLAT FAQ DATA for search ──
   const faqData = [];
-  document.querySelectorAll('.faq-item').forEach(item => {
-    const q = item.querySelector('.faq-q').textContent.trim().replace(/[\n\r]+/g,' ').replace(/\s+/g,' ');
-    const a = item.querySelector('.faq-a-inner').textContent.trim().replace(/[\n\r]+/g,' ').replace(/\s+/g,' ');
-    const tags = item.getAttribute('data-tags') || '';
-    faqData.push({ q, a, tags, el: item });
+  const catLabels = {
+    shipping: 'Shipping & Delivery',
+    payment: 'Payment',
+    products: 'Product Questions',
+    mattress: 'Mattress Topper',
+    relaxmat: 'Relax Mat',
+    support: 'Customer Support'
+  };
+
+  document.querySelectorAll('.cat-card').forEach(card => {
+    const cat = card.getAttribute('data-cat');
+    card.querySelectorAll('.faq-item').forEach(item => {
+      const qNode = item.querySelector('.faq-q');
+      const q = qNode.childNodes[0].textContent.trim();
+      const a = item.querySelector('.faq-a-inner').textContent.trim().replace(/\s+/g,' ');
+      const tags = item.getAttribute('data-tags') || '';
+      faqData.push({ q, a, tags, cat, catLabel: catLabels[cat] });
+    });
   });
 
-  // ── TOGGLE FAQ ITEM ──
+  // ── TOGGLE FAQ ACCORDION ──
   function toggleFaq(btn) {
     const item = btn.closest('.faq-item');
     const isOpen = item.classList.contains('open');
-    // close all
     document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
   }
 
-  // ── SECTION FILTER ──
-  let activeSection = 'all';
-  let activeSearch = '';
-
-  function filterSection(section, btn) {
-    activeSection = section;
-    document.querySelectorAll('.section-pill').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    applyFilters();
+  // ── TOGGLE MORE ARTICLES IN A CARD ──
+  function toggleMore(btn) {
+    const card = btn.closest('.cat-card');
+    const extras = card.querySelectorAll('.faq-item.extra');
+    const expanded = btn.classList.contains('expanded');
+    const count = extras.length;
+    extras.forEach(el => el.classList.toggle('shown', !expanded));
+    btn.classList.toggle('expanded', !expanded);
+    btn.querySelector('.more-label').textContent = expanded
+      ? count + ' more article' + (count !== 1 ? 's' : '')
+      : 'Show less';
   }
 
-  function applyFilters() {
-    const sections = document.querySelectorAll('.faq-section');
-    let anyVisible = false;
+  // ── LIVE SEARCH ──
+  const gridView    = document.getElementById('categoryGridView');
+  const searchView  = document.getElementById('searchResultsView');
+  const resultsList = document.getElementById('searchResultsList');
+  const noResults   = document.getElementById('noResults');
+  const termDisplay = document.getElementById('searchTermDisplay');
 
-    sections.forEach(sect => {
-      const sectKey = sect.getAttribute('data-section');
-      const showSect = (activeSection === 'all' || activeSection === sectKey);
-      let sectionHasVisible = false;
-
-      sect.querySelectorAll('.faq-item').forEach(item => {
-        const tags = (item.getAttribute('data-tags') || '').toLowerCase();
-        const q = item.querySelector('.faq-q').textContent.toLowerCase();
-        const matchesSearch = !activeSearch || tags.includes(activeSearch) || q.includes(activeSearch);
-        const show = showSect && matchesSearch;
-        item.classList.toggle('search-hidden', !show);
-        if (show) sectionHasVisible = true;
-      });
-
-      sect.classList.toggle('hidden', !sectionHasVisible);
-      if (sectionHasVisible) anyVisible = true;
-    });
-
-    document.getElementById('noResults').classList.toggle('visible', !anyVisible);
-  }
-
-  // ── LIVE SEARCH (filter as you type) ──
   document.getElementById('searchInput').addEventListener('input', function() {
-    activeSearch = this.value.toLowerCase().trim();
-    if (!activeSearch) {
-      // reset section filter state on clear
+    const q = this.value.trim();
+    if (!q) {
+      gridView.classList.remove('hidden');
+      searchView.classList.remove('active');
       document.getElementById('aiAnswer').classList.remove('visible');
-      applyFilters();
-    } else {
-      // reset to all sections when searching
-      activeSection = 'all';
-      document.querySelectorAll('.section-pill').forEach(p => p.classList.remove('active'));
-      document.querySelector('[data-section="all"]').classList.add('active');
-      applyFilters();
+      return;
     }
+    runSearch(q);
   });
+
+  function runSearch(q) {
+    const lower = q.toLowerCase();
+    gridView.classList.add('hidden');
+    searchView.classList.add('active');
+    termDisplay.textContent = q;
+
+    const matches = faqData.filter(f =>
+      f.tags.toLowerCase().includes(lower) ||
+      f.q.toLowerCase().includes(lower) ||
+      f.a.toLowerCase().includes(lower)
+    );
+
+    resultsList.innerHTML = '';
+    noResults.classList.toggle('visible', matches.length === 0);
+
+    matches.forEach(f => {
+      const item = document.createElement('div');
+      item.className = 'faq-item';
+      item.innerHTML =
+        '<button class="faq-q" onclick="toggleFaq(this)">' +
+          f.q +
+          '<span class="faq-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>' +
+        '</button>' +
+        '<div class="faq-a"><div class="faq-a-inner">' +
+          '<span class="search-cat-tag">' + f.catLabel + '</span><br>' +
+          f.a +
+        '</div></div>';
+      resultsList.appendChild(item);
+    });
+  }
 
   // ── AI SEARCH ──
   async function handleSearch() {
     const query = document.getElementById('searchInput').value.trim();
     if (!query) return;
 
+    runSearch(query);
+
     const btn = document.getElementById('searchBtn');
     const answerBox = document.getElementById('aiAnswer');
     const answerText = document.getElementById('aiAnswerText');
 
-    btn.textContent = '…';
+    btn.textContent = '\u2026';
     btn.classList.add('loading');
     btn.disabled = true;
 
     answerBox.classList.add('visible');
     answerText.innerHTML = '<span class="ai-cursor"></span>';
 
-    // Build context from FAQ data
-    const context = faqData.map((f, i) => `Q${i+1}: ${f.q}\nA${i+1}: ${f.a}`).join('\n\n');
+    const context = faqData.map((f, i) => 'Q' + (i+1) + ': ' + f.q + '\nA' + (i+1) + ': ' + f.a).join('\n\n');
 
     try {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -1110,15 +1245,15 @@
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 1000,
-          system: `You are a helpful customer service assistant for Muscle Mat, an Australian wellness products brand. Answer customer questions using ONLY the FAQ content provided. Be friendly, direct, and concise — 2-4 sentences max. If the question isn't covered, say so briefly and suggest emailing info@musclemat.com.au. Never invent information.\n\nFAQ Knowledge Base:\n${context}`,
+          system: 'You are a helpful customer service assistant for Muscle Mat, an Australian wellness brand. Answer using ONLY the FAQ knowledge base below. Be friendly, direct, and concise — 2-4 sentences max. If not covered, say so and suggest emailing info@musclemat.com.au. Never invent facts.\n\nFAQ Knowledge Base:\n' + context,
           messages: [{ role: 'user', content: query }]
         })
       });
-
       const data = await res.json();
-      const text = data.content?.[0]?.text || "I couldn't find an answer to that. Please email info@musclemat.com.au for help.";
+      const text = (data.content && data.content[0] && data.content[0].text)
+        ? data.content[0].text
+        : "I couldn't find an answer to that. Please email info@musclemat.com.au for help.";
 
-      // Typewriter effect
       answerText.innerHTML = '';
       let i = 0;
       const cursor = document.createElement('span');
@@ -1130,13 +1265,11 @@
           answerText.appendChild(cursor);
           i++;
           setTimeout(type, 12);
-        } else {
-          cursor.remove();
-        }
+        } else { cursor.remove(); }
       }
       type();
 
-    } catch (e) {
+    } catch(e) {
       answerText.textContent = "Couldn't connect right now. Try browsing the topics below, or email info@musclemat.com.au.";
     }
 
@@ -1145,7 +1278,7 @@
     btn.disabled = false;
   }
 
-  // ── ORDER TRACKER (demo UI) ──
+  // ── ORDER TRACKER (demo) ──
   function trackOrder() {
     const val = document.getElementById('trackerInput').value.trim();
     if (!val) return;
@@ -1153,7 +1286,6 @@
     const result = document.getElementById('trackerResult');
     result.classList.remove('visible');
 
-    // Simulate a status based on first char (just for demo variety)
     const statuses = [
       { label: 'In Transit — On its way to you', step: 3, fill: '50%' },
       { label: 'Out for Delivery — Arriving today', step: 4, fill: '75%' },
@@ -1161,27 +1293,20 @@
       { label: 'Packed & Dispatched — Picked up by AusPost', step: 2, fill: '25%' },
     ];
     const s = statuses[val.charCodeAt(0) % statuses.length];
-
     document.getElementById('trackerStatusText').textContent = s.label;
 
-    // Update steps
     for (let i = 1; i <= 5; i++) {
-      const stepEl = document.getElementById('step' + i);
-      stepEl.classList.remove('done', 'active');
-      if (i < s.step) stepEl.classList.add('done');
-      else if (i === s.step) stepEl.classList.add('active');
+      const el = document.getElementById('step' + i);
+      el.classList.remove('done', 'active');
+      if (i < s.step) el.classList.add('done');
+      else if (i === s.step) el.classList.add('active');
     }
 
-    // Animate fill line
     const line = document.getElementById('stepsLineFill');
     line.style.width = '0%';
-    setTimeout(() => { line.style.width = s.fill; }, 50);
-
-    setTimeout(() => result.classList.add('visible'), 100);
+    setTimeout(function() { line.style.width = s.fill; }, 50);
+    setTimeout(function() { result.classList.add('visible'); }, 100);
   }
-
-  // ── INIT: show all sections ──
-  applyFilters();
 </script>
 </body>
 </html>
