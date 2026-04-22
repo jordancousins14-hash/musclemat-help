@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help Centre — Muscle Mat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    /* Foundation */
+    --cream: #F5F1EB;
+    --white: #FDFCFA;
+    --sand: #EDE6DB;
+    --sand-mid: #E3D9CC;
+    /* Text */
+    --dark: #2A2520;
+    --mid: #6B6057;
+    --soft: #9A9088;
+
+    /* Accent */
+    --rust: #C4602A;
+    --rust-light: #D97848;
+    --rust-tint: #FAF0EA;
+
+    /* Zone tints — all light, clearly distinct */
+    --zone-search: #EEE9E1;   /* warm greige — slightly deeper than cream */
+    --zone-tracker: #E8EFE6;  /* very soft sage green */
+    --zone-faq: #F5F1EB;      /* pure cream foundation */
+
+    --border: #DDD5C8;
+    --border-light: #EAE3D8;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--zone-faq);
+    color: var(--dark);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--white);
+    border-bottom: 1.5px solid var(--border-light);
+    padding: 0 clamp(20px, 5vw, 60px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.5px;
+    color: var(--dark);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-dot { width: 8px; height: 8px; background: var(--rust); border-radius: 50%; display: inline-block; }
+  .back-link {
+    font-size: 13px;
+    color: var(--mid);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--rust); }
+
+  /* HERO — Zone 1: warm greige */
+  .hero {
+    background: var(--zone-search);
+    padding: clamp(48px, 8vw, 80px) clamp(20px, 5vw, 60px) clamp(40px, 6vw, 64px);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(196,96,42,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(32px, 5vw, 54px);
+    color: var(--dark);
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+  .hero-sub {
+    color: var(--mid);
+    font-size: 15px;
+    font-weight: 300;
+    margin-bottom: 36px;
+  }
+
+  /* SEARCH */
+  .search-wrap { max-width: 620px; margin: 0 auto; position: relative; }
+  .search-input-row {
+    display: flex;
+    align-items: center;
+    background: var(--white);
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .search-input-row:focus-within {
+    border-color: var(--rust);
+    box-shadow: 0 0 0 4px rgba(196,96,42,0.1), 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .search-icon { padding: 0 14px 0 18px; color: var(--soft); flex-shrink: 0; display: flex; align-items: center; }
+  .search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    padding: 16px 0;
+    background: transparent;
+    color: var(--dark);
+  }
+  .search-input::placeholder { color: var(--soft); }
+  .search-btn {
+    background: var(--rust);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 6px;
+    border-radius: 8px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+  }
+  .search-btn:hover { background: var(--rust-light); }
+  .search-btn:active { transform: scale(0.97); }
+  .search-btn.loading { opacity: 0.7; cursor: wait; }
+
+  /* AI ANSWER */
+  .ai-answer {
+    max-width: 620px;
+    margin: 14px auto 0;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-left: 3px solid var(--rust);
+    border-radius: 12px;
+    padding: 20px 24px;
+    text-align: left;
+    display: none;
+    animation: fadeSlideIn 0.3s ease forwards;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .ai-answer.visible { display: block; }
+  .ai-answer-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ai-badge {
+    background: var(--rust-tint);
+    color: var(--rust);
+    border: 1px solid rgba(196,96,42,0.2);
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+  }
+  .ai-answer-text {
+    color: var(--mid);
+    font-size: 14px;
+    line-height: 1.75;
+    font-weight: 400;
+  }
+  .ai-cursor {
+    display: inline-block;
+    width: 2px; height: 15px;
+    background: var(--rust);
+    border-radius: 1px;
+    animation: blink 0.7s step-end infinite;
+    margin-left: 2px;
+    vertical-align: middle;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* TRACKER BANNER — Zone 2: soft sage green */
+  .tracker-section {
+    background: #EAF0E7;
+    border-top: 1.5px solid #CFDACA;
+    border-bottom: 1.5px solid #CFDACA;
+    padding: 36px clamp(20px, 5vw, 60px);
+  }
+  .tracker-inner { max-width: 860px; margin: 0 auto; }
+  .tracker-top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 640px) { .tracker-top { grid-template-columns: 1fr; } }
+  .tracker-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #4E6B49;
+    margin-bottom: 6px;
+  }
+  .tracker-heading {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 21px;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .tracker-sub { font-size: 13px; color: var(--mid); font-weight: 300; }
+  .tracker-form-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .tracker-input {
+    background: var(--white);
+    border: 1.5px solid #C0CFC0;
+    border-radius: 8px;
+    padding: 11px 16px;
+    color: var(--dark);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    width: 260px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .tracker-input::placeholder { color: var(--soft); }
+  .tracker-input:focus { border-color: #4E6B49; box-shadow: 0 0 0 3px rgba(78,107,73,0.12); }
+  .tracker-btn {
+    background: #4E6B49;
+    color: white;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 8px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .tracker-btn:hover { background: #5E7E59; }
+  .tracker-auspost-link {
+    font-size: 12px;
+    color: var(--soft);
+    text-decoration: none;
+    transition: color 0.2s;
+    padding: 11px 0;
+  }
+  .tracker-auspost-link:hover { color: #4E6B49; }
+
+  /* TRACKER RESULT */
+  .tracker-result {
+    background: var(--white);
+    border: 1.5px solid #C0CFC0;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-top: 16px;
+    display: none;
+    animation: fadeSlideIn 0.3s ease forwards;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .tracker-result.visible { display: block; }
+  .tracker-status-row { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+  .status-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #52a852;
+    box-shadow: 0 0 6px rgba(82,168,82,0.45);
+    flex-shrink: 0;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot { 0%,100%{transform:scale(1)} 50%{transform:scale(1.35)} }
+  .status-label { font-size: 12px; color: var(--soft); margin-bottom: 3px; }
+  .status-value { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: var(--dark); }
+
+  /* PROGRESS STEPS */
+  .steps-track {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+  }
+  .steps-line-bg {
+    position: absolute;
+    top: 11px;
+    left: 11px; right: 11px;
+    height: 2px;
+    background: #D0DCCE;
+  }
+  .steps-line-fill {
+    position: absolute;
+    top: 11px;
+    left: 11px;
+    height: 2px;
+    background: #4E6B49;
+    transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+  }
+  .step { flex: 1; text-align: center; position: relative; z-index: 2; }
+  .step-dot {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #E2EDE0;
+    border: 2px solid #C0CFC0;
+    margin: 0 auto 8px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.5s;
+    font-size: 10px; font-weight: 700; color: transparent;
+  }
+  .step.done .step-dot { background: #4E6B49; border-color: #4E6B49; color: white; }
+  .step.active .step-dot {
+    background: #4E6B49; border-color: #4E6B49; color: white;
+    box-shadow: 0 0 12px rgba(78,107,73,0.4);
+    animation: pulse-step 2s ease-in-out infinite;
+  }
+  @keyframes pulse-step { 0%,100%{box-shadow:0 0 10px rgba(78,107,73,0.35)} 50%{box-shadow:0 0 20px rgba(78,107,73,0.6)} }
+  .step-label { font-size: 11px; color: var(--soft); line-height: 1.3; }
+  .step.done .step-label, .step.active .step-label { color: var(--mid); }
+  .tracker-note { font-size: 11.5px; color: var(--soft); margin-top: 16px; }
+  .tracker-note a { color: #4E6B49; text-decoration: none; }
+  .tracker-note a:hover { text-decoration: underline; }
+
+  /* MAIN */
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: clamp(32px, 6vw, 56px) clamp(20px, 5vw, 40px);
+  }
+
+  /* SECTION PILLS */
+  .section-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
+  .section-pill {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--mid);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 7px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .section-pill:hover { border-color: var(--rust); color: var(--rust); }
+  .section-pill.active { background: var(--rust); border-color: var(--rust); color: white; }
+  .pill-count {
+    font-size: 11px;
+    background: rgba(0,0,0,0.09);
+    border-radius: 100px;
+    padding: 1px 7px;
+    font-weight: 600;
+  }
+  .section-pill.active .pill-count { background: rgba(255,255,255,0.22); }
+
+  /* FAQ SECTIONS */
+  .faq-section { margin-bottom: 44px; }
+  .faq-section.hidden { display: none; }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .section-icon {
+    width: 38px; height: 38px;
+    background: var(--sand);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--dark);
+    letter-spacing: -0.3px;
+  }
+
+  /* FAQ ITEMS */
+  .faq-item {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    animation: fadeSlideIn 0.25s ease both;
+  }
+  .faq-item:hover { border-color: rgba(196,96,42,0.3); }
+  .faq-item.open { border-color: rgba(196,96,42,0.5); box-shadow: 0 4px 20px rgba(196,96,42,0.07); }
+  .faq-item.search-hidden { display: none; }
+
+  .faq-q {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 18px 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--dark);
+    transition: color 0.2s;
+  }
+  .faq-item.open .faq-q { color: var(--rust); }
+  .faq-chevron {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--sand);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.3s, background 0.2s;
+    color: var(--mid);
+  }
+  .faq-item.open .faq-chevron { transform: rotate(180deg); background: var(--rust); color: white; }
+
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1); }
+  .faq-item.open .faq-a { max-height: 1200px; }
+  .faq-a-inner {
+    padding: 16px 20px 20px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--mid);
+    border-top: 1.5px solid var(--sand);
+  }
+  .faq-a-inner a { color: var(--rust); text-decoration: none; border-bottom: 1px solid rgba(196,96,42,0.3); transition: border-color 0.2s; }
+  .faq-a-inner a:hover { border-color: var(--rust); }
+  .faq-a-inner strong { color: var(--dark); font-weight: 500; }
+  .faq-a-inner ul { margin: 10px 0 10px 20px; }
+  .faq-a-inner li { margin-bottom: 6px; }
+  .faq-a-inner p + p { margin-top: 10px; }
+
+  /* NO RESULTS */
+  .no-results { text-align: center; padding: 60px 20px; display: none; }
+  .no-results.visible { display: block; }
+  .no-results-emoji { font-size: 40px; margin-bottom: 16px; }
+  .no-results h3 { font-family: 'Syne', sans-serif; font-size: 20px; margin-bottom: 8px; }
+  .no-results p { color: var(--mid); font-size: 14px; }
+  .no-results a { color: var(--rust); text-decoration: none; font-weight: 500; }
+
+  /* CONTACT CARD */
+  .contact-card {
+    background: var(--sand-mid);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 40px;
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+  @media (max-width: 580px) { .contact-card { grid-template-columns: 1fr; padding: 28px 24px; } }
+  .contact-eyebrow { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--rust); font-weight: 600; margin-bottom: 8px; }
+  .contact-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 22px; color: var(--dark); margin-bottom: 8px; letter-spacing: -0.3px; }
+  .contact-card p { font-size: 13px; color: var(--mid); font-weight: 300; line-height: 1.7; }
+  .contact-actions { display: flex; flex-direction: column; gap: 10px; }
+  .btn-primary {
+    background: var(--rust); color: white; border: none;
+    padding: 12px 24px; border-radius: 8px;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px;
+    cursor: pointer; text-decoration: none; display: inline-block; text-align: center;
+    transition: background 0.2s; white-space: nowrap;
+  }
+  .btn-primary:hover { background: var(--rust-light); }
+  .btn-ghost {
+    background: var(--white); color: var(--mid);
+    border: 1.5px solid var(--border);
+    padding: 11px 24px; border-radius: 8px;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px;
+    cursor: pointer; text-decoration: none; display: inline-block; text-align: center;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .btn-ghost:hover { border-color: var(--rust); color: var(--rust); }
+
+  /* ANIMATIONS */
+  @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* HIGHLIGHT */
+  mark { background: rgba(196,96,42,0.15); border-radius: 3px; padding: 0 2px; color: inherit; }
+
+  @media (max-width: 480px) {
+    .tracker-input { width: 100%; }
+    .tracker-form-row { flex-direction: column; }
+    .tracker-btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="https://www.musclemat.com.au" class="logo">
+    <span class="logo-dot"></span>Muscle Mat
+  </a>
+  <a href="https://www.musclemat.com.au" class="back-link">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Back to store
+  </a>
+</header>
+
+<!-- HERO + SEARCH -->
+<section class="hero">
+  <p class="hero-eyebrow">Help Centre</p>
+  <h1>How can we help?</h1>
+  <p class="hero-sub">Search for answers, or browse topics below</p>
+  <div class="search-wrap">
+    <div class="search-input-row">
+      <span class="search-icon">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </span>
+      <input class="search-input" id="searchInput" type="text" placeholder="e.g. where is my order, how to clean, returns…" autocomplete="off"
+        onkeydown="if(event.key==='Enter') handleSearch()">
+      <button class="search-btn" id="searchBtn" onclick="handleSearch()">Ask</button>
+    </div>
+    <div class="ai-answer" id="aiAnswer">
+      <div class="ai-answer-label">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        AI Answer <span class="ai-badge">BETA</span>
+      </div>
+      <p class="ai-answer-text" id="aiAnswerText"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER TRACKER -->
+<section class="tracker-section">
+  <div class="tracker-inner">
+    <div class="tracker-top">
+      <div>
+        <p class="tracker-label">📦 Most common question</p>
+        <h2 class="tracker-heading">Track Your Order</h2>
+        <p class="tracker-sub">Enter your AusPost tracking number from your dispatch email</p>
+      </div>
+    </div>
+    <div class="tracker-form-row">
+      <input class="tracker-input" id="trackerInput" type="text" placeholder="e.g. 7J12345678901234567"
+        onkeydown="if(event.key==='Enter') trackOrder()">
+      <button class="tracker-btn" onclick="trackOrder()">Track Order →</button>
+      <a href="https://auspost.com.au/mypost/track/#/search" target="_blank" class="tracker-auspost-link">Open AusPost ↗</a>
+    </div>
+
+    <div class="tracker-result" id="trackerResult">
+      <div class="tracker-status-row">
+        <div class="status-dot"></div>
+        <div>
+          <div class="status-label">Current Status</div>
+          <div class="status-value" id="trackerStatusText">In Transit — On its way to you</div>
+        </div>
+      </div>
+      <div class="steps-track">
+        <div class="steps-line-bg"></div>
+        <div class="steps-line-fill" id="stepsLineFill" style="width:0%"></div>
+        <div class="step done" id="step1">
+          <div class="step-dot">✓</div>
+          <div class="step-label">Order<br>Placed</div>
+        </div>
+        <div class="step done" id="step2">
+          <div class="step-dot">✓</div>
+          <div class="step-label">Packed &<br>Dispatched</div>
+        </div>
+        <div class="step active" id="step3">
+          <div class="step-dot">✓</div>
+          <div class="step-label">In<br>Transit</div>
+        </div>
+        <div class="step" id="step4">
+          <div class="step-dot"></div>
+          <div class="step-label">Out for<br>Delivery</div>
+        </div>
+        <div class="step" id="step5">
+          <div class="step-dot"></div>
+          <div class="step-label">Delivered</div>
+        </div>
+      </div>
+      <p class="tracker-note">This is a demo preview. Live tracking connects directly to AusPost via <a href="https://auspost.com.au/mypost/track/#/search" target="_blank">auspost.com.au</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN FAQ -->
+<main class="main">
+  <nav class="section-nav" id="sectionNav">
+    <button class="section-pill active" data-section="all" onclick="filterSection('all',this)">All Topics <span class="pill-count">30</span></button>
+    <button class="section-pill" data-section="shipping" onclick="filterSection('shipping',this)">📦 Shipping <span class="pill-count">5</span></button>
+    <button class="section-pill" data-section="payment" onclick="filterSection('payment',this)">💳 Payment <span class="pill-count">4</span></button>
+    <button class="section-pill" data-section="products" onclick="filterSection('products',this)">🛏 Products <span class="pill-count">8</span></button>
+    <button class="section-pill" data-section="mattress" onclick="filterSection('mattress',this)">🌙 Mattress Topper <span class="pill-count">8</span></button>
+    <button class="section-pill" data-section="relaxmat" onclick="filterSection('relaxmat',this)">🧘 Relax Mat <span class="pill-count">4</span></button>
+    <button class="section-pill" data-section="support" onclick="filterSection('support',this)">💬 Support <span class="pill-count">2</span></button>
+  </nav>
+
+  <div class="no-results" id="noResults">
+    <div class="no-results-emoji">🤔</div>
+    <h3>Nothing found for that search</h3>
+    <p>Try different keywords, or <a href="mailto:info@musclemat.com.au">email our team</a> — we reply within 1–2 business days.</p>
+  </div>
+
+  <!-- ── SHIPPING ── -->
+  <div class="faq-section" data-section="shipping" id="sect-shipping">
+    <div class="section-header">
+      <div class="section-icon">📦</div>
+      <h2 class="section-title">Shipping & Delivery</h2>
+    </div>
+
+    <div class="faq-item" data-tags="shipping time delivery arrive days metro auspost">
+      <button class="faq-q" onclick="toggleFaq(this)">How long does delivery take?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Orders placed before 1pm are usually dispatched the same day. Delivery typically takes <strong>1–3 business days for metro areas</strong> and 3–10 business days for non-metro areas. During busy periods like Christmas, shipping may take a little longer.<br><br>
+        Want an estimate to your postcode? Use the <a href="https://auspost.com.au/parcels-mail/calculate-postage-delivery-times/#/" target="_blank">AusPost delivery calculator</a> — our dispatch postcode is 2164.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="preorder pre-order stock dispatch date">
+      <button class="faq-q" onclick="toggleFaq(this)">What is a pre-order?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        A pre-order means the item is temporarily out of stock, but you can still secure your order and it will be dispatched as soon as new stock arrives. The estimated dispatch date is shown on the product page, at checkout, and in your confirmation email.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="not shipped order hasn't dispatched delay waiting">
+      <button class="faq-q" onclick="toggleFaq(this)">Why hasn't my order shipped yet?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        A few common reasons your order may not have shipped yet:
+        <ul>
+          <li><strong>It's a pre-order</strong> — check the product page to confirm.</li>
+          <li><strong>Peak/holiday period</strong> — processing times can be extended during sales and holidays.</li>
+          <li><strong>Order issue</strong> — incomplete address, payment error, or similar. If it's been more than 3 business days and none of the above apply, email us at <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a>.</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="missing item multiple parcels separate parcel tracking">
+      <button class="faq-q" onclick="toggleFaq(this)">I ordered multiple items but one is missing — is that normal?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Yes, this is normal! Because our products are bulky, multi-item orders are sent in separate parcels. AusPost usually delivers them together, but sometimes they arrive a day or two apart.<br><br>
+        To track your other parcel, click the tracking link in your dispatch email and look for the "Item 1 of 2" dropdown — select "Item 2 of 2" to see the second parcel's status.<br><br>
+        If the second parcel hasn't arrived within 5 business days of the first, please email us at <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a>.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="where based location warehouse sydney brisbane">
+      <button class="faq-q" onclick="toggleFaq(this)">Where are you based?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Our head office is in Brisbane and our warehouse is in Sydney. By warehousing in Sydney — Australia's most central population hub — we can get orders to most customers faster.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ── PAYMENT ── -->
+  <div class="faq-section" data-section="payment" id="sect-payment">
+    <div class="section-header">
+      <div class="section-icon">💳</div>
+      <h2 class="section-title">Payment</h2>
+    </div>
+
+    <div class="faq-item" data-tags="payment options visa mastercard afterpay zippay paypal apple google">
+      <button class="faq-q" onclick="toggleFaq(this)">What payment methods do you accept?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        We accept PayPal, Afterpay, Zippay, Visa, Mastercard, Amex, Google Pay, Apple Pay, and Shop Pay.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="afterpay how to use buy now pay later">
+      <button class="faq-q" onclick="toggleFaq(this)">How do I use Afterpay?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        After entering your shipping details at checkout, you'll be shown all payment options including Afterpay. Select Afterpay and you'll be redirected to their site to complete the purchase and set up your repayment schedule.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="ndis invoice disability plan manager">
+      <button class="faq-q" onclick="toggleFaq(this)">Can you provide an NDIS invoice?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Absolutely! We're not a registered NDIS provider, but we can issue an invoice that you can pay yourself or forward to your plan manager. Our Relax Mats and Mattress Toppers are especially popular for NDIS purchases.<br><br>
+        Email us at <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a> with the following:
+        <ul>
+          <li>Product details (size, colour, quantity)</li>
+          <li>Shipping/billing name, address, and mobile number</li>
+          <li>Participant name and NDIS number</li>
+        </ul>
+        We'll email you a payment link and PDF invoice. Check your spam folder if you don't see a reply.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="discount code multiple promo coupon sale stack">
+      <button class="faq-q" onclick="toggleFaq(this)">Can I use more than one discount code?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Our system only allows one discount to be applied per order. This includes offers, sales, promotions, discount codes, vouchers, and gift cards. If you have multiple discounts, we recommend applying whichever gives you the biggest saving.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ── PRODUCTS ── -->
+  <div class="faq-section" data-section="products" id="sect-products">
+    <div class="section-header">
+      <div class="section-icon">🛏</div>
+      <h2 class="section-title">Product Questions</h2>
+    </div>
+
+    <div class="faq-item" data-tags="clean wash care instructions how to">
+      <button class="faq-q" onclick="toggleFaq(this)">How do I clean and care for my product?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <strong>Acupressure Mat</strong> — Remove the inner foam. Hand wash the outer cover only with mild detergent. Hang to air dry. No iron, bleach, or tumble dry.<br><br>
+        <strong>CloudPad</strong> — The cover is machine washable. Unzip, turn inside out, gentle warm cycle with mild detergent, air dry flat. The inner foam is not washable.<br><br>
+        <strong>Duvet</strong> — Cold gentle machine wash, separately. Line dry in shade. No bleach, tumble dry, or iron.<br><br>
+        <strong>Bed Sheets</strong> — Cold gentle machine wash, max 30°C, mild liquid detergent. Air dry is best. For stains, soak in 1-part vinegar to 4-parts water for one hour then wash.<br><br>
+        <strong>Mattress Topper</strong> — Spot clean with liquid detergent and a damp cloth for minor stains. For deeper clean, cold/warm hand wash or large-capacity laundromat machine on a short gentle cycle. Air dry in the sun. No heat, no dry cleaning.<br><br>
+        <strong>Relax Mat</strong> — Wipe spills with a damp cloth. Use a small amount of gentle detergent for stubborn stains. Vacuum regularly. Don't place heavy furniture on it. <a href="https://www.musclemat.com.au/blogs/blog/how-to-care-for-your-relax-mat" target="_blank">Full care guide →</a><br><br>
+        <strong>Weighted Blanket (cover)</strong> — Remove inner, cold machine wash, gentle cycle, hang to air dry. No heat. For the inner: vacuum, then spot clean if needed with a diluted laundry spray. Ensure fully dry before use.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="warranty guarantee how long">
+      <button class="faq-q" onclick="toggleFaq(this)">What's the warranty on your products?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        All Muscle Mat products come with a <strong>1-year warranty</strong>. If you have an issue with your product, email us at <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a> and our team will help you out.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="children kids age safe acupressure weighted blanket">
+      <button class="faq-q" onclick="toggleFaq(this)">Can children use the Acupressure Mat or Weighted Blanket?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <strong>Acupressure Mat:</strong> Older children (10+) often enjoy using the mat and adapt to it quickly. Always supervise, and consider starting with a shirt on for their first session. <strong>Not suitable for children under 10.</strong><br><br>
+        <strong>Weighted Blanket:</strong> Not recommended for children under 10, and <strong>must never be used by children under 5</strong> as it could pose a serious safety risk.<br><br>
+        <strong>Relax Mat:</strong> Suitable for all ages.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="medical condition health safe use doctor">
+      <button class="faq-q" onclick="toggleFaq(this)">Can I use a Muscle Mat product with my medical condition?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Your health and safety is our priority. While our products are generally considered safe and low-risk, we're unable to provide medical advice. We always recommend speaking with your doctor before use if you have any medical conditions.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="pregnant pregnancy acupressure safe">
+      <button class="faq-q" onclick="toggleFaq(this)">Can the Acupressure Mat be used during pregnancy?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        We generally advise <strong>against</strong> using the acupressure mat during pregnancy as a safety precaution — some evidence suggests it may stimulate labour. Please consult your doctor before using it if you are pregnant.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="acupressure how does it work benefits">
+      <button class="faq-q" onclick="toggleFaq(this)">How do acupressure mats work?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Acupressure mats are based on the ancient Eastern practice of acupressure, which dates back over 2,000 years. The mat's surface mimics the effect of multiple pressure points applied simultaneously, which many people find promotes relaxation and muscle relief. For a deeper look at the benefits, <a href="https://www.thegoodbody.com/acupressure-mat-benefits/" target="_blank">The Good Body has a great write-up</a>.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="how to use acupressure mat instructions">
+      <button class="faq-q" onclick="toggleFaq(this)">How do I use the Acupressure Mat?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        We have a full instructions page on our website — <a href="https://www.musclemat.com.au/pages/instructions" target="_blank">check it out here</a>.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="what is it made of material fabric">
+      <button class="faq-q" onclick="toggleFaq(this)">What are your products made of?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Materials vary by product. Each product page lists full material details. If you have a specific allergy concern or need more information, email us at <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a> and we'll be happy to help.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ── MATTRESS TOPPER ── -->
+  <div class="faq-section" data-section="mattress" id="sect-mattress">
+    <div class="section-header">
+      <div class="section-icon">🌙</div>
+      <h2 class="section-title">Mattress Topper</h2>
+    </div>
+
+    <div class="faq-item" data-tags="sheets fit deep size topper">
+      <button class="faq-q" onclick="toggleFaq(this)">Will my sheets fit over the mattress topper?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        If your mattress is already deep, or your sheets are tight-fitting, you may need deeper sheets after adding the topper. Avoid sheets that are very tight as they'll compress the topper and reduce its comfort.<br><br>
+        We sell Australia's deepest bed sheets at 50cm — <a href="https://www.musclemat.com.au/products/sheets" target="_blank">shop them here</a>.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="hot cold temperature sleep heat regulate">
+      <button class="faq-q" onclick="toggleFaq(this)">Is the mattress topper too hot or cold?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Our toppers are quite temperature-neutral — loved by customers in Far North Queensland and Tasmania alike. For cooler months, pair with flannelette sheets. For warmer months, go for cotton, linen, or bamboo.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="caravan campervan bed size fit custom">
+      <button class="faq-q" onclick="toggleFaq(this)">Do your toppers fit caravan beds?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Very popular for caravans! Our topper has square corners (unlike some rounded caravan mattresses), but it's flexible enough that this isn't an issue once you put sheets on.<br><br>
+        If your mattress isn't a standard size, measure it and match it as closely as possible to our available sizes. If you're between two sizes, go with the larger one. <a href="https://www.musclemat.com.au/products/luxury-mattress-topper" target="_blank">View dimensions →</a>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="size what size queen double king single">
+      <button class="faq-q" onclick="toggleFaq(this)">What size topper should I get?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Get the same size as your mattress — a Queen bed gets a Queen topper. If your mattress falls between two sizes, measure the width and length and go with the closest match. When in doubt, size up.<br><br>
+        <a href="https://www.musclemat.com.au/products/luxury-mattress-topper" target="_blank">Full dimension guide on the product page →</a>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="allergy allergen latex hypoallergenic safe">
+      <button class="faq-q" onclick="toggleFaq(this)">Is the mattress topper allergy-friendly?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        We can't guarantee the topper is free from all allergens. While it doesn't contain latex directly, it is manufactured in a facility that also handles latex products. If you have latex or material allergies, we recommend checking with us before purchasing.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="is it worth it good benefits why get topper">
+      <button class="faq-q" onclick="toggleFaq(this)">Is it worth getting a mattress topper?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        A mattress topper is one of the most cost-effective ways to upgrade your sleep. It adds comfort and plushness, evens out minor dips or firmness issues in your existing mattress, and extends its lifespan. More than 50% of Australians now use one.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="electric blanket use on top under topper safe">
+      <button class="faq-q" onclick="toggleFaq(this)">Can I use an electric blanket with the topper?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Yes — place the electric blanket <strong>on top</strong> of the topper, never underneath it. Placing it underneath could pose a fire risk and also reduces how effectively the heat transfers. Always follow the manufacturer's instructions and never leave an electric blanket unsupervised.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="what does topper do revitalise old mattress">
+      <button class="faq-q" onclick="toggleFaq(this)">What does a mattress topper actually do?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        A topper improves comfort, adds plushness, smooths out surface bumps, and protects and extends the life of your original mattress. It can also revitalise an older mattress that's lost its comfort.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ── RELAX MAT ── -->
+  <div class="faq-section" data-section="relaxmat" id="sect-relaxmat">
+    <div class="section-header">
+      <div class="section-icon">🧘</div>
+      <h2 class="section-title">Relax Mat (Tatami)</h2>
+    </div>
+
+    <div class="faq-item" data-tags="what is relax mat tatami memory foam">
+      <button class="faq-q" onclick="toggleFaq(this)">What is the Relax Mat?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        The Relax Mat is a 35mm thick tatami-style memory foam mat with a stain and water resistant outer coating and a high-density foam inner. It's great for lounging, kids play areas, napping, and general floor use. Suitable for all ages — adults and kids both love them.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="polished floors marks damage non slip bottom">
+      <button class="faq-q" onclick="toggleFaq(this)">Can I use the Relax Mat on polished floors?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        In very rare cases, the non-slip base can react with older floor polish that's already breaking down, leaving small black marks. We recommend testing the mat on an out-of-the-way spot for a few days before placing it in a main area.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="expand flat crease fold iron open unroll">
+      <button class="faq-q" onclick="toggleFaq(this)">My Relax Mat has creases — how do I flatten it?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        This is completely normal due to how it's packed. Lay it flat for 3–10 days and most creases will naturally ease out. For stubborn folds, use an iron or steamer on minimum heat and maximum steam — keep it moving and don't hold it in one spot.<br><br>
+        <a href="https://www.musclemat.com.au/blogs/blog/how-to-care-for-your-relax-mat" target="_blank">Full care guide →</a>
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="thick thickness how thick mm size relax mat">
+      <button class="faq-q" onclick="toggleFaq(this)">How thick is the Relax Mat?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        The Relax Mat is <strong>35mm thick</strong> — the thickest tatami-style mat available in Australia. We measure from the centre by cutting a cross-section through the foam.
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ── SUPPORT ── -->
+  <div class="faq-section" data-section="support" id="sect-support">
+    <div class="section-header">
+      <div class="section-icon">💬</div>
+      <h2 class="section-title">Customer Support</h2>
+    </div>
+
+    <div class="faq-item" data-tags="contact us email phone hours reach team">
+      <button class="faq-q" onclick="toggleFaq(this)">How do I get in touch with the team?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Email is the fastest way to reach us: <a href="mailto:info@musclemat.com.au">info@musclemat.com.au</a><br><br>
+        We're open <strong>Monday to Friday, 9am–3pm AEST</strong>. We aim to reply within 1–2 business days. You can also reach us on <a href="https://www.facebook.com/Muscle-Mat-105396194411046" target="_blank">Facebook Messenger</a>.
+      </div></div>
+    </div>
+
+    <div class="faq-item" data-tags="no reply customer service not responded spam email blocked">
+      <button class="faq-q" onclick="toggleFaq(this)">I haven't heard back from customer service — what's going on?
+        <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">
+        We always aim to reply within 1–3 business days. If you haven't heard back, a few things to check:
+        <ul>
+          <li><strong>Is it the weekend?</strong> We're Monday–Friday only.</li>
+          <li><strong>Check your spam/junk folder</strong> — our replies sometimes end up there.</li>
+          <li><strong>Work email addresses</strong> (especially those ending in <em>.tpg.com.au</em>) can block external replies. Try a personal email address.</li>
+          <li>If none of the above apply after 3 business days, try emailing us from a different account or reaching out via <a href="https://www.facebook.com/Muscle-Mat-105396194411046" target="_blank">Facebook Messenger</a>.</li>
+        </ul>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- CONTACT CARD -->
+  <div class="contact-card">
+    <div>
+      <p class="contact-eyebrow">Still need help?</p>
+      <h3>Our team's got you covered</h3>
+      <p>Mon–Fri, 9am–3pm AEST. We reply within 1–2 business days. Check spam if you don't hear back — we always respond.</p>
+    </div>
+    <div class="contact-actions">
+      <a href="mailto:info@musclemat.com.au" class="btn-primary">Email Us</a>
+      <a href="https://www.facebook.com/Muscle-Mat-105396194411046" target="_blank" class="btn-ghost">Facebook Messenger</a>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  // ── FAQ DATA (for AI search) ──
+  const faqData = [];
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const q = item.querySelector('.faq-q').textContent.trim().replace(/[\n\r]+/g,' ').replace(/\s+/g,' ');
+    const a = item.querySelector('.faq-a-inner').textContent.trim().replace(/[\n\r]+/g,' ').replace(/\s+/g,' ');
+    const tags = item.getAttribute('data-tags') || '';
+    faqData.push({ q, a, tags, el: item });
+  });
+
+  // ── TOGGLE FAQ ITEM ──
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    // close all
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── SECTION FILTER ──
+  let activeSection = 'all';
+  let activeSearch = '';
+
+  function filterSection(section, btn) {
+    activeSection = section;
+    document.querySelectorAll('.section-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const sections = document.querySelectorAll('.faq-section');
+    let anyVisible = false;
+
+    sections.forEach(sect => {
+      const sectKey = sect.getAttribute('data-section');
+      const showSect = (activeSection === 'all' || activeSection === sectKey);
+      let sectionHasVisible = false;
+
+      sect.querySelectorAll('.faq-item').forEach(item => {
+        const tags = (item.getAttribute('data-tags') || '').toLowerCase();
+        const q = item.querySelector('.faq-q').textContent.toLowerCase();
+        const matchesSearch = !activeSearch || tags.includes(activeSearch) || q.includes(activeSearch);
+        const show = showSect && matchesSearch;
+        item.classList.toggle('search-hidden', !show);
+        if (show) sectionHasVisible = true;
+      });
+
+      sect.classList.toggle('hidden', !sectionHasVisible);
+      if (sectionHasVisible) anyVisible = true;
+    });
+
+    document.getElementById('noResults').classList.toggle('visible', !anyVisible);
+  }
+
+  // ── LIVE SEARCH (filter as you type) ──
+  document.getElementById('searchInput').addEventListener('input', function() {
+    activeSearch = this.value.toLowerCase().trim();
+    if (!activeSearch) {
+      // reset section filter state on clear
+      document.getElementById('aiAnswer').classList.remove('visible');
+      applyFilters();
+    } else {
+      // reset to all sections when searching
+      activeSection = 'all';
+      document.querySelectorAll('.section-pill').forEach(p => p.classList.remove('active'));
+      document.querySelector('[data-section="all"]').classList.add('active');
+      applyFilters();
+    }
+  });
+
+  // ── AI SEARCH ──
+  async function handleSearch() {
+    const query = document.getElementById('searchInput').value.trim();
+    if (!query) return;
+
+    const btn = document.getElementById('searchBtn');
+    const answerBox = document.getElementById('aiAnswer');
+    const answerText = document.getElementById('aiAnswerText');
+
+    btn.textContent = '…';
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    answerBox.classList.add('visible');
+    answerText.innerHTML = '<span class="ai-cursor"></span>';
+
+    // Build context from FAQ data
+    const context = faqData.map((f, i) => `Q${i+1}: ${f.q}\nA${i+1}: ${f.a}`).join('\n\n');
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: `You are a helpful customer service assistant for Muscle Mat, an Australian wellness products brand. Answer customer questions using ONLY the FAQ content provided. Be friendly, direct, and concise — 2-4 sentences max. If the question isn't covered, say so briefly and suggest emailing info@musclemat.com.au. Never invent information.\n\nFAQ Knowledge Base:\n${context}`,
+          messages: [{ role: 'user', content: query }]
+        })
+      });
+
+      const data = await res.json();
+      const text = data.content?.[0]?.text || "I couldn't find an answer to that. Please email info@musclemat.com.au for help.";
+
+      // Typewriter effect
+      answerText.innerHTML = '';
+      let i = 0;
+      const cursor = document.createElement('span');
+      cursor.className = 'ai-cursor';
+
+      function type() {
+        if (i < text.length) {
+          answerText.textContent += text[i];
+          answerText.appendChild(cursor);
+          i++;
+          setTimeout(type, 12);
+        } else {
+          cursor.remove();
+        }
+      }
+      type();
+
+    } catch (e) {
+      answerText.textContent = "Couldn't connect right now. Try browsing the topics below, or email info@musclemat.com.au.";
+    }
+
+    btn.textContent = 'Ask';
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+
+  // ── ORDER TRACKER (demo UI) ──
+  function trackOrder() {
+    const val = document.getElementById('trackerInput').value.trim();
+    if (!val) return;
+
+    const result = document.getElementById('trackerResult');
+    result.classList.remove('visible');
+
+    // Simulate a status based on first char (just for demo variety)
+    const statuses = [
+      { label: 'In Transit — On its way to you', step: 3, fill: '50%' },
+      { label: 'Out for Delivery — Arriving today', step: 4, fill: '75%' },
+      { label: 'Delivered — Left at front door', step: 5, fill: '100%' },
+      { label: 'Packed & Dispatched — Picked up by AusPost', step: 2, fill: '25%' },
+    ];
+    const s = statuses[val.charCodeAt(0) % statuses.length];
+
+    document.getElementById('trackerStatusText').textContent = s.label;
+
+    // Update steps
+    for (let i = 1; i <= 5; i++) {
+      const stepEl = document.getElementById('step' + i);
+      stepEl.classList.remove('done', 'active');
+      if (i < s.step) stepEl.classList.add('done');
+      else if (i === s.step) stepEl.classList.add('active');
+    }
+
+    // Animate fill line
+    const line = document.getElementById('stepsLineFill');
+    line.style.width = '0%';
+    setTimeout(() => { line.style.width = s.fill; }, 50);
+
+    setTimeout(() => result.classList.add('visible'), 100);
+  }
+
+  // ── INIT: show all sections ──
+  applyFilters();
+</script>
+</body>
+</html>
